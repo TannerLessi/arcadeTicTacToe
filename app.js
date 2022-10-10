@@ -1,17 +1,13 @@
 let gameState = {
-  playerOne: "",
-  playerTwo: "",
   currentPlayer: "X",
-  gameStatus: false,
+  gameWin: false,
   board: [null, null, null, null, null, null, null, null, null],
 };
-let winner;
 
 //dom refs
 const board = document.getElementById("board");
-const displayPlayer = document.getElementsByClassName("display-player");
-const drawMsg = "Draw!";
-const winningMsg = "you win!";
+const displayWinner = document.getElementById("winner");
+
 //functions
 
 function createBoard() {
@@ -35,7 +31,9 @@ function renderGame() {
 }
 
 function switchPlayer() {
-  //let nextPlayer = gameState.currentPlayer;
+  if (gameState.gameWin === true) {
+    return;
+  }
   if (gameState.currentPlayer === "X") {
     gameState.currentPlayer = "O";
   } else {
@@ -54,18 +52,31 @@ const winCombinations = [
   [2, 4, 6],
 ];
 
-function checkWin() {}
-// if (gameState.board === winCombinations) {
-//   return winningMsg;
-// } else {
-//   return checkTie();
-// }
+function checkWin() {
+  for (let i = 0; i < winCombinations.length; i++) {
+    let winComb = winCombinations[i];
 
-// function checkTie() {
-//   if (gameState.board !== winCombinations) {
-//     return drawMsg;
-//   }
-// }
+    if (
+      gameState.board[winComb[0]] === null ||
+      gameState.board[winComb[1]] === null ||
+      gameState.board[winComb[2]] === null
+    ) {
+      continue;
+    }
+    if (
+      gameState.board[winComb[0]] === gameState.board[winComb[1]] &&
+      gameState.board[winComb[1]] === gameState.board[winComb[2]]
+    ) {
+      console.log(gameState.currentPlayer + "won");
+      gameState.gameWin = true;
+      if (gameState.gameWin === true) {
+        displayWinner.innerText = `${gameState.currentPlayer} is the Winner!`;
+      }
+    }
+  }
+}
+
+function checkDraw() {}
 
 //eventListeners
 board.addEventListener("click", function (e) {
@@ -74,7 +85,8 @@ board.addEventListener("click", function (e) {
   gameState.board[index] = gameState.currentPlayer;
   //updatePlay(index);
   renderGame();
-  switchPlayer();
   checkWin();
+  switchPlayer();
+
   console.log(gameState.board);
 });
