@@ -1,0 +1,35 @@
+#main-container {
+  text-align: center;
+  font-family: "Chancery", cursive;
+}
+
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 1px solid;
+  font-size: 40px;
+}
+#board {
+  display: grid;
+  width: 300px;
+  margin: auto;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+}
+
+.reset {
+  margin: 20px;
+}
+
+#reset-button {
+  background-color: brown;
+  font-size: large;
+}
+
+#winner {
+  height: 50px;
+}
